@@ -2,6 +2,8 @@
 
 subclass of UINavigationBar which can handle touch events on both edges.
 
+![ss](https://raw.github.com/ishkawa/ISInteractiveEdgesNavigationBar/develop/ss.png)
+
 ## Usage
 
 ```objectivec
