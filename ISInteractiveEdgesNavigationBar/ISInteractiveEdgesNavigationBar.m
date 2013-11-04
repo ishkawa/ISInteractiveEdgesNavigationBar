@@ -4,7 +4,15 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    for (UIBarButtonItem *barButtonItem in @[self.topItem.leftBarButtonItem, self.topItem.rightBarButtonItem]) {
+    NSMutableArray *barButtonItems = [NSMutableArray array];
+    if (self.topItem.leftBarButtonItem) {
+        [barButtonItems addObject:self.topItem.leftBarButtonItem];
+    }
+    if (self.topItem.rightBarButtonItem) {
+        [barButtonItems addObject:self.topItem.rightBarButtonItem];
+    }
+    
+    for (UIBarButtonItem *barButtonItem in barButtonItems) {
         for (UIView *subview in barButtonItem.customView.subviews) {
             CGRect convertedRect = [self convertRect:subview.frame fromView:barButtonItem.customView];
             BOOL isTouchable = subview.userInteractionEnabled && !subview.isHidden && subview.alpha > 0.f;
