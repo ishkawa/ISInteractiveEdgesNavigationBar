@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = "ISInteractiveEdgesNavigationBar"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.platform     = :ios, '4.3'
   s.summary      = "subclass of UINavigationBar which can handle touch events on both edges."
   s.homepage     = "https://github.com/ishkawa/ISInteractiveEdgesNavigationBar"
   s.author       = { "Yosuke Ishikawa" => "y@ishkawa.org" }
-  s.source       = { :git => "https://github.com/ishkawa/ISInteractiveEdgesNavigationBar.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/ishkawa/ISInteractiveEdgesNavigationBar.git", :tag => "0.0.2" }
   s.source_files = 'ISInteractiveEdgesNavigationBar/**/*.{h,m}'
   s.requires_arc = true
   s.license      = {
