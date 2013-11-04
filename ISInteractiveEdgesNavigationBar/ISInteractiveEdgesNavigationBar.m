@@ -4,26 +4,17 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    NSMutableArray *subviews = [NSMutableArray array];
-    [subviews addObjectsFromArray:self.topItem.leftBarButtonItem.customView.subviews];
-    [subviews addObjectsFromArray:self.topItem.rightBarButtonItem.customView.subviews];
-    
-    UIView *receiverView = nil;
-    for (UIView *subview in subviews) {
-        CGRect convertedRect = [self convertRect:subview.frame fromView:subview.superview];
-        BOOL isTouchable = subview.userInteractionEnabled && !subview.isHidden && subview.alpha > 0.f;
-        BOOL containsPoint = CGRectContainsPoint(convertedRect, point);
-        if (isTouchable && containsPoint) {
-            receiverView = subview;
-            break;
+    for (UIBarButtonItem *barButtonItem in @[self.topItem.leftBarButtonItem, self.topItem.rightBarButtonItem]) {
+        for (UIView *subview in barButtonItem.customView.subviews) {
+            CGRect convertedRect = [self convertRect:subview.frame fromView:barButtonItem.customView];
+            BOOL isTouchable = subview.userInteractionEnabled && !subview.isHidden && subview.alpha > 0.f;
+            BOOL containsPoint = CGRectContainsPoint(convertedRect, point);
+            if (isTouchable && containsPoint) {
+                CGPoint convertedPoint = [self convertPoint:point toView:subview];
+                return [subview hitTest:convertedPoint withEvent:event];
+            }
         }
     }
-    
-    if (receiverView) {
-        CGPoint convertedPoint = [self convertPoint:point toView:receiverView];
-        return [receiverView hitTest:convertedPoint withEvent:event];
-    }
-    
     return [super hitTest:point withEvent:event];
 }
 
