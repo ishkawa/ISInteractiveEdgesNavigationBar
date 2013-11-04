@@ -6,12 +6,14 @@
 {
     UIView *leftView = self.topItem.leftBarButtonItem.customView;
     if ([self shouldPassEventAtPoint:point toView:leftView]) {
-        return leftView;
+        CGPoint convertedPoint = [leftView convertPoint:point fromView:self];
+        return [leftView hitTest:convertedPoint withEvent:event];
     }
     
     UIView *rightView = self.topItem.rightBarButtonItem.customView;
     if ([self shouldPassEventAtPoint:point toView:rightView]) {
-        return rightView;
+        CGPoint convertedPoint = [rightView convertPoint:point fromView:self];
+        return [rightView hitTest:convertedPoint withEvent:event];
     }
     
     return [super hitTest:point withEvent:event];
