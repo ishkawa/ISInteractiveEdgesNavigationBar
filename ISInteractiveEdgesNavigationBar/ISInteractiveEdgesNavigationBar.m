@@ -4,35 +4,18 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    UIView *leftView = self.topItem.leftBarButtonItem.customView;
-    if ([self shouldPassEventAtPoint:point toView:leftView]) {
-        return leftView;
-    }
-    
-    UIView *rightView = self.topItem.rightBarButtonItem.customView;
-    if ([self shouldPassEventAtPoint:point toView:rightView]) {
-        return rightView;
-    }
-    
-    return [super hitTest:point withEvent:event];
-}
-
-- (BOOL)shouldPassEventAtPoint:(CGPoint)point toView:(UIView *)view
-{
-    if (!view || view.isHidden || !view.userInteractionEnabled || view.alpha == 0.f) {
-        return NO;
-    }
-    
-    BOOL containsPoint = NO;
-    for (UIView *subview in [view.subviews arrayByAddingObject:view]) {
-        CGRect convertedFrame = [subview convertRect:subview.frame toView:view];
-        if (CGRectContainsPoint(convertedFrame, point)) {
-            containsPoint = YES;
-            break;
+    for (UIBarButtonItem *barButtonItem in @[self.topItem.leftBarButtonItem, self.topItem.rightBarButtonItem]) {
+        for (UIView *subview in barButtonItem.customView.subviews) {
+            CGRect convertedRect = [self convertRect:subview.frame fromView:barButtonItem.customView];
+            BOOL isTouchable = subview.userInteractionEnabled && !subview.isHidden && subview.alpha > 0.f;
+            BOOL containsPoint = CGRectContainsPoint(convertedRect, point);
+            if (isTouchable && containsPoint) {
+                CGPoint convertedPoint = [self convertPoint:point toView:subview];
+                return [subview hitTest:convertedPoint withEvent:event];
+            }
         }
     }
-    
-    return containsPoint;
+    return [super hitTest:point withEvent:event];
 }
 
 @end
