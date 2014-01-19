@@ -15,7 +15,7 @@
     for (UIBarButtonItem *barButtonItem in barButtonItems) {
         for (UIView *subview in barButtonItem.customView.subviews) {
             CGRect convertedRect = [self convertRect:subview.frame fromView:barButtonItem.customView];
-            BOOL isTouchable = subview.userInteractionEnabled && !subview.isHidden && subview.alpha > 0.f;
+            BOOL isTouchable = self.userInteractionEnabled && subview.userInteractionEnabled && !subview.isHidden && subview.alpha > 0.f;
             BOOL containsPoint = CGRectContainsPoint(convertedRect, point);
             if (isTouchable && containsPoint) {
                 CGPoint convertedPoint = [self convertPoint:point toView:subview];
